@@ -1,42 +1,51 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
-import { Add } from "../add/add";
+import { Todo } from './todo.model';
+import { Component, OnInit } from '@angular/core';
 
-@IonicPage()
 @Component({
   selector: 'page-todos',
   templateUrl: 'todos.html'
 })
-export class Todos {
-  
-  public todoList: Array<string>; 
 
-  constructor(private navCtrl: NavController, public navParams: NavParams, public loading: LoadingController) {
-  }
+export class Todos implements OnInit {
+    todoList: Array<Todo> = new Array<Todo>();
 
-ionViewDidEnter() {
-  let loader = this.loading.create({
-    content: 'Getting latest entries...',
-  });
+    constructor() { }
 
-  loader.present().then(() => {
-     this.todoList = JSON.parse(localStorage.getItem("todos"));
-    if(!this.todoList) { 
-      this.todoList = [];
-      console.log("chegou aqui")
+    ngOnInit() {
+        let savedTodos = localStorage.getItem("todos-list");
+        if (savedTodos) {
+            this.todoList = JSON.parse(savedTodos);
+        }
     }
-    loader.dismiss();
-  });
-}
-    
 
-  delete(index: number) { 
-    this.todoList.splice(index, 1);
-    localStorage.setItem("todos", JSON.stringify(this.todoList));
-  }
+    add() {
+        let title = prompt("Criar novo lembrete");
+        if (title) {
+            this.todoList.push(new Todo(title));
+            this.save();
+        }
+    }
 
-  add() { 
-    this.navCtrl.push(Add);
-  }
+    edit(todo: Todo) {
+        let title = prompt("Editar lembrete", todo.title);
+        if (title && title != todo.title) {
+            todo.title = title;
+            this.save();
+        }
+    }
+
+    delete(index: number) {
+        this.todoList.splice(index, 1);
+        this.save();
+    }
+
+    toggleStatus(todo: Todo) {
+        todo.completed = !todo.completed;
+        this.save();
+    }
+
+    save() {
+        localStorage.setItem("todos-list", JSON.stringify(this.todoList));
+    }
 
 }

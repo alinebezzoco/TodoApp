@@ -11,19 +11,17 @@
 
 
 <ion-content class="todos" padding>
-  
+
   <ion-list>
-    <ion-item-sliding *ngFor="let todo of todoList; let i = index">
+    <ion-item-sliding *ngFor="let todo of todoList; let i = index;" (click)="toggleStatus(todo)">
       <ion-item>
-        <h2>{{ todo }}</h2>
+        <h2>{{ todo.title }}</h2>
       </ion-item>
       <ion-item-options>
-        <button danger (click)="delete(i)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </button>
+        <button (click)="edit(todo)">Editar</button>
+        <button (click)="delete(i)">Remover</button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  
+
 </ion-content>

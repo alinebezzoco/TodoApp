@@ -7,12 +7,14 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { Todos } from '../pages/todos/todos';
 import { Add } from '../pages/add/add';
+import { Edit } from '../pages/edit/edit';
 
 @NgModule({
   declarations: [
     MyApp,
     Todos,
-    Add
+    Add, 
+    Edit
   ],
   imports: [
     BrowserModule,
@@ -22,7 +24,8 @@ import { Add } from '../pages/add/add';
   entryComponents: [
     MyApp,
     Todos,
-    Add
+    Add, 
+    Edit
   ],
   providers: [
     StatusBar,
